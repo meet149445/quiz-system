@@ -54,7 +54,7 @@
                     <thead class="bg-indigo-600 text-white">
 
                         <tr>
-                            <th class="px-4 py-4 text-center">#</th>
+                            <th class="px-4 py-4 text-center">QNo.</th>
                             <th class="px-4 py-4 text-left">Question</th>
                             <th class="px-4 py-4 text-left">Option A</th>
                             <th class="px-4 py-4 text-left">Option B</th>

@@ -234,7 +234,7 @@
         <div class="bg-white rounded-3xl shadow-lg p-10 text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Ready to Challenge Yourself?</h2>
             <p class="text-gray-500 mt-3">Explore hundreds of quizzes and earn certificates.</p>
-            <a href="/all-categories"
+            <a href="/categories-list"
                class="inline-block mt-6 bg-indigo-600 text-white px-8 py-3 rounded-xl hover:bg-indigo-700 transition">
                 Browse Categories
             </a>

@@ -82,6 +82,19 @@
                     Login
                 </button>
 
+                <div class="text-center mt-6 space-y-3">
+
+                <div>
+                    <a href="/"
+                       class="text-indigo-600 hover:text-indigo-800 hover:underline text-sm font-medium">
+                        Forgot Password?
+                    </a>
+                </div>
+
+                
+
+            </div>
+
             </form>
 
         </div>

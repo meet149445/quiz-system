@@ -124,7 +124,7 @@
         <!-- Back Button -->
         <div class="mt-8 text-center">
 
-            <a href="/category"
+            <a href="/admin-categories"
                class="inline-flex items-center bg-gray-700 text-white px-6 py-3 rounded-xl font-semibold hover:bg-gray-800 transition">
                 ← Back to Categories
             </a>
