@@ -44,14 +44,20 @@ class BrevoTransport extends AbstractTransport
         ]);
 
         // Send
-        $brevo->transactionalEmails->sendTransacEmail(
-            new SendTransacEmailRequest([
-                'subject'     => $email->getSubject(),
-                'htmlContent' => $email->getHtmlBody() ?? nl2br($email->getTextBody() ?? ''),
-                'sender'      => $sender,
-                'to'          => $to,
-            ])
-        );
+        // Send
+try {
+    $brevo->transactionalEmails->sendTransacEmail(
+        new SendTransacEmailRequest([
+            'subject'     => $email->getSubject(),
+            'htmlContent' => $email->getHtmlBody() ?? nl2br($email->getTextBody() ?? ''),
+            'sender'      => $sender,
+            'to'          => $to,
+        ])
+    );
+} catch (\Brevo\Exceptions\BrevoApiException $e) {
+    \Illuminate\Support\Facades\Log::error('Brevo error: ' . $e->getMessage() . ' Body: ' . $e->getResponseBody());
+    throw $e;
+}
     }
 
     public function __toString(): string
