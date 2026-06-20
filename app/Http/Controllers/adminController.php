@@ -69,7 +69,7 @@ class adminController extends Controller
 
     public function logout(){
         Session::forget("admin");
-        return redirect ("admin-login");
+        return redirect ("/");
     }
 
     public function addCategory(Request $request){
