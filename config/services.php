@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'brevo' => [          // ← ADD THIS
+    'key' => env('BREVO_API_KEY'),
+],
+
 ];

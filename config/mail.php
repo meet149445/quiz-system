@@ -37,6 +37,10 @@ return [
 
     'mailers' => [
 
+        'brevo' => [          // ← ADD THIS
+        'transport' => 'brevo',
+    ],
+
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME'),
