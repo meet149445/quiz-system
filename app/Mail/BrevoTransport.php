@@ -5,12 +5,10 @@ namespace App\Mail;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mime\MessageConverter;
-use Brevo\Client\Configuration;
-use Brevo\Client\Api\TransactionalEmailsApi;
-use Brevo\Client\Model\SendSmtpEmail;
-use Brevo\Client\Model\SendSmtpEmailTo;
-use Brevo\Client\Model\SendSmtpEmailSender;
-use GuzzleHttp\Client;
+use Brevo\Brevo;
+use Brevo\TransactionalEmails\Requests\SendTransacEmailRequest;
+use Brevo\TransactionalEmails\Types\SendTransacEmailRequestSender;
+use Brevo\TransactionalEmails\Types\SendTransacEmailRequestToItem;
 
 class BrevoTransport extends AbstractTransport
 {
@@ -26,34 +24,34 @@ class BrevoTransport extends AbstractTransport
     {
         $email = MessageConverter::toEmail($message->getOriginalMessage());
 
-        $config = Configuration::getDefaultConfiguration()
-            ->setApiKey('api-key', $this->apiKey);
+        $brevo = new Brevo($this->apiKey);
 
-        $apiInstance = new TransactionalEmailsApi(new Client(), $config);
-
+        // Build recipients
         $to = [];
         foreach ($email->getTo() as $address) {
-            $recipient = new SendSmtpEmailTo();
-            $recipient->setEmail($address->getAddress());
-            $recipient->setName($address->getName() ?? '');
-            $to[] = $recipient;
+            $to[] = new SendTransacEmailRequestToItem([
+                'email' => $address->getAddress(),
+                'name'  => $address->getName() ?? '',
+            ]);
         }
 
-        $sender = new SendSmtpEmailSender();
+        // Build sender
         $fromAddresses = $email->getFrom();
-        $fromAddress = reset($fromAddresses);
-        $sender->setEmail($fromAddress->getAddress());
-        $sender->setName($fromAddress->getName() ?? '');
+        $fromAddress   = reset($fromAddresses);
+        $sender = new SendTransacEmailRequestSender([
+            'email' => $fromAddress->getAddress(),
+            'name'  => $fromAddress->getName() ?? '',
+        ]);
 
-        $sendEmail = new SendSmtpEmail();
-        $sendEmail->setSender($sender);
-        $sendEmail->setTo($to);
-        $sendEmail->setSubject($email->getSubject());
-        $sendEmail->setHtmlContent(
-            $email->getHtmlBody() ?? nl2br($email->getTextBody() ?? '')
+        // Send
+        $brevo->transactionalEmails->sendTransacEmail(
+            new SendTransacEmailRequest([
+                'subject'     => $email->getSubject(),
+                'htmlContent' => $email->getHtmlBody() ?? nl2br($email->getTextBody() ?? ''),
+                'sender'      => $sender,
+                'to'          => $to,
+            ])
         );
-
-        $apiInstance->sendTransacEmail($sendEmail);
     }
 
     public function __toString(): string
