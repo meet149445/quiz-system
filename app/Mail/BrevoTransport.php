@@ -28,12 +28,12 @@ class BrevoTransport extends AbstractTransport
 
         // Build recipients
         $to = [];
-        foreach ($email->getTo() as $address) {
-            $to[] = new SendTransacEmailRequestToItem([
-                'email' => $address->getAddress(),
-                'name'  => $address->getName() ?? '',
-            ]);
-        }
+foreach ($email->getTo() as $address) {
+    $to[] = new SendTransacEmailRequestToItem([
+        'email' => $address->getAddress(),
+        'name'  => $address->getName() ?: $address->getAddress(), // ← use email as name if empty
+    ]);
+}
 
         // Build sender
         $fromAddresses = $email->getFrom();
