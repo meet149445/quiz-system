@@ -55,8 +55,9 @@ try {
         ])
     );
 } catch (\Brevo\Exceptions\BrevoApiException $e) {
-    \Illuminate\Support\Facades\Log::error('Brevo error: ' . print_r($e->getBody(), true));
-    throw $e;
+    $body = $e->getBody();
+    $bodyStr = is_string($body) ? $body : json_encode($body);
+    throw new \Exception('Brevo API Error: ' . $e->getMessage() . ' | Body: ' . $bodyStr);
 }
     }
 
