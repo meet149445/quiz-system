@@ -55,7 +55,7 @@ try {
         ])
     );
 } catch (\Brevo\Exceptions\BrevoApiException $e) {
-    \Illuminate\Support\Facades\Log::error('Brevo error: ' . $e->getMessage() . ' Body: ' . $e->getResponseBody());
+    \Illuminate\Support\Facades\Log::error('Brevo error: ' . $e->getMessage());
     throw $e;
 }
     }
